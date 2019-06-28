@@ -1,8 +1,10 @@
 import React from 'react';
-import { Animated, Button, View, Text, TextInput, Image, ImageBackground } from 'react-native';
+import { Alert, Animated, Button , View, Text, TextInput, Image, ImageBackground, NetInfo } from 'react-native';
 import { createAppContainer, createStackNavigator } from 'react-navigation'; // Version can be specified in package.json
 
 import { FontAwesome } from '@expo/vector-icons';
+import * as Crypto from 'expo-crypto';
+
 
 import Colors from '../constants/Colors';
 import usuario from '../data/usuario';
@@ -45,9 +47,32 @@ export default class LoginScreen extends React.Component {
   	pass : '',
   };
   async _login() {
+		const digest = await Crypto.digestStringAsync(
+		  Crypto.CryptoDigestAlgorithm.SHA256,
+		  this.state.pass
+		);
+		const info = await NetInfo.getConnectionInfo();
+  	console.log(info.type=='wifi' || info.type=='cellular');
+  	console.log(NetInfo.ConnectionType);
+  	if( digest == usuario.password && usuario.user == this.state.user) {
 
-  	console.log(usuario.password);
-    this.props.navigation.navigate('Main');
+    	this.props.navigation.navigate('Main');
+  	} else {
+      Alert.alert(
+        'Usuairo o contraseña invalido',
+        '',
+        [
+          {text: 'OK', 
+          onPress: () => 
+				  	this.setState({
+				  		...this.state,
+				  		pass: '' ,
+				  	})
+				  },
+        ],
+        {cancelable: false},
+      );
+  	}
   }
   _usr({text}) {
   	this.setState({
