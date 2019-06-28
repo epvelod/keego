@@ -1,53 +1,53 @@
 [{
-	id_falla: 1,
-	descripcion: 'Maltratado, martillado',
+	"id_falla": 1,
+	"descripcion": "Maltratado, martillado"
 },
 {
-	id_falla: 2,
-	descripcion: 'Quemado, derretido, coloración diferente',
+	"id_falla": 2,
+	"descripcion": "Quemado, derretido, coloración diferente"
 },
 {
-	id_falla: 3,
-	descripcion: 'Aplastado, marcado',
+	"id_falla": 3,
+	"descripcion": "Aplastado, marcado"
 },
 {
-	id_falla: 4,
-	descripcion: 'Abollado o roto por contacto externo',
+	"id_falla": 4,
+	"descripcion": "Abollado o roto por contacto externo"
 },
 {
-	id_falla: 5,
-	descripcion: 'Estirado, fisurado, roto por fisura o esfuerzo',
+	"id_falla": 5,
+	"descripcion": "Estirado, fisurado, roto por fisura o esfuerzo"
 },
 {
-	id_falla: 6,
-	descripcion: 'Corroido, oxidado, decolorado',
+	"id_falla": 6,
+	"descripcion": "Corroido, oxidado, decolorado"
 },
 {
-	id_falla: 9,
-	descripcion: 'Desgste evidente o fuera de tolerancia',
+	"id_falla": 9,
+	"descripcion": "Desgste evidente o fuera de tolerancia"
 },
 {
-	id_falla: 10,
-	descripcion: 'Faltante',
+	"id_falla": 10,
+	"descripcion": "Faltante"
 },
 {
-	id_falla: 11,
-	descripcion: 'Diseño, componente o método de reparación no especificado por el fabricante',
+	"id_falla": 11,
+	"descripcion": "Diseño, componente o método de reparación no especificado por el fabricante"
 },
 {
-	id_falla: 12,
-	descripcion: 'Presenta juego excesivo',
+	"id_falla": 12,
+	"descripcion": "Presenta juego excesivo"
 },
 {
-	id_falla: 13,
-	descripcion: 'Presenta fugas de fluidos',
+	"id_falla": 13,
+	"descripcion": "Presenta fugas de fluidos"
 },
 {
-	id_falla: 14,
-	descripcion: 'No pasa la prueba',
+	"id_falla": 14,
+	"descripcion": "No pasa la prueba"
 },
 {
-	id_falla: 15,
-	descripcion: 'No funciona',
-},
+	"id_falla": 15,
+	"descripcion": "No funciona"
+}
 ]
