@@ -1,0 +1,518 @@
+[
+  {
+    "id_normatividad": 0,
+    "instrucciones": [
+      {
+        "id_ensamble": 0,
+        "instruccion": "Prueba: Con el motor encendido, presione manualmente el pedal del acelerador y suéltelo.El pedal del acelerador debe regresar por sí solo.",
+        "componentes": [
+          {
+            "id_componente": 0,
+            "descripcion": "Pedal del acelerador",
+            "fallas": [
+              14
+            ]
+          }
+        ]
+      },
+      {
+        "id_ensamble": 1,
+        "instruccion": "Inspeccione visual y manualmente el ensamble de acelerador.Indique si algún componente presenta falla.",
+        "componentes": [
+          {
+            "id_componente": 0,
+            "descripcion": "Pedal",
+            "fallas": [
+              4,
+              9,
+              10,
+              11,
+              12
+            ]
+          },
+          {
+            "id_componente": 1,
+            "descripcion": "Sensor",
+            "fallas": [
+              1,
+              2,
+              3,
+              4,
+              6,
+              10,
+              11,
+              12
+            ]
+          },
+          {
+            "id_componente": 2,
+            "descripcion": "Cableado",
+            "fallas": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              10,
+              11
+            ]
+          },
+          {
+            "id_componente": 3,
+            "descripcion": "Mecanismo",
+            "fallas": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              10,
+              11,
+              12
+            ]
+          }
+        ]
+      },
+      {
+        "id_ensamble": 2,
+        "instruccion": "Inspeccione visual y manualmente el tanque de combustible izquierdo.Indique si algún componente presenta falla.",
+        "componentes": [
+          {
+            "id_componente": 0,
+            "descripcion": "Tapón (es)",
+            "fallas": [
+              4,
+              5,
+              10,
+              11,
+              12,
+              13
+            ]
+          },
+          {
+            "id_componente": 1,
+            "descripcion": "Tanque (s)",
+            "fallas": [
+              3,
+              4,
+              5,
+              10,
+              11,
+              12,
+              13
+            ]
+          },
+          {
+            "id_componente": 2,
+            "descripcion": "Soporte de tanque (s)",
+            "fallas": [
+              4,
+              5,
+              10,
+              11,
+              12
+            ]
+          },
+          {
+            "id_componente": 3,
+            "descripcion": "Sujetadores de correa (s)",
+            "fallas": [
+              3,
+              4,
+              5,
+              9,
+              10,
+              11,
+              12
+            ]
+          },
+          {
+            "id_componente": 4,
+            "descripcion": "Líneas / mangueras",
+            "fallas": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              10,
+              11,
+              13
+            ]
+          }
+        ]
+      },
+      {
+        "id_ensamble": 3,
+        "instruccion": "Inspeccione visual y manualmente el tanque de combustible derecho.Indique si algún componente presenta falla.",
+        "componentes": [
+          {
+            "id_componente": 0,
+            "descripcion": "Tapón (es)",
+            "fallas": [
+              4,
+              5,
+              10,
+              11,
+              12,
+              13
+            ]
+          },
+          {
+            "id_componente": 1,
+            "descripcion": "Tanque (s)",
+            "fallas": [
+              3,
+              4,
+              5,
+              10,
+              11,
+              12,
+              13
+            ]
+          },
+          {
+            "id_componente": 2,
+            "descripcion": "Soporte de tanque (s)",
+            "fallas": [
+              4,
+              5,
+              10,
+              11,
+              12
+            ]
+          },
+          {
+            "id_componente": 3,
+            "descripcion": "Sujetadores de correa (s)",
+            "fallas": [
+              3,
+              4,
+              5,
+              9,
+              10,
+              11,
+              12
+            ]
+          },
+          {
+            "id_componente": 4,
+            "descripcion": "Líneas / mangueras",
+            "fallas": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              10,
+              11,
+              13
+            ]
+          }
+        ]
+      },
+      {
+        "id_ensamble": 4,
+        "instruccion": "Prueba: Verifique que ningún tubo de escape esté a menos de 50 mm (2”) del cableado o de algún componente del sistema de combustible o de los frenos o de cualquier material inflamable aun cuando esté protegido por una cubierta.Nota: En caso de contar con protección, se acepta hasta 25 mm (1”), p. ej.: la protección del tanque de combustible.",
+        "componentes": [
+          {
+            "id_componente": 0,
+            "descripcion": "Tubos de escape traseros",
+            "fallas": [
+              14
+            ]
+          }
+        ]
+      },
+      {
+        "id_ensamble": 5,
+        "instruccion": "Inspeccione visual y manualmente el múltiple y tubos de escape.Indique si algún componente presenta falla.",
+        "componentes": [
+          {
+            "id_componente": 0,
+            "descripcion": "Múltiple",
+            "fallas": [
+              5,
+              10,
+              12,
+              13
+            ]
+          },
+          {
+            "id_componente": 1,
+            "descripcion": "Tubos de escape traseros",
+            "fallas": [
+              4,
+              5,
+              10,
+              11,
+              12,
+              13
+            ]
+          },
+          {
+            "id_componente": 2,
+            "descripcion": "Coberturas térmicas de tubos de escape (S/A)",
+            "fallas": [
+              4,
+              5,
+              10
+            ]
+          },
+          {
+            "id_componente": 3,
+            "descripcion": "Montaje y sus herrajes de tubos de escape",
+            "fallas": [
+              3,
+              4,
+              5,
+              10,
+              11,
+              12
+            ]
+          }
+        ]
+      },
+      {
+        "id_ensamble": 6,
+        "instruccion": "Prueba: Verifique que el mofle o punta de escape no esté a menos de 50 mm (2”) del cableado o de algún componente del sistema de combustible o de los frenos o de cualquier material inflamable aun cuando esté protegido por una cubierta.Nota: En caso de contar con protección, se acepta hasta 25 mm (1”), p. ej.: la protección del tanque de combustible.",
+        "componentes": [
+          {
+            "id_componente": 0,
+            "descripcion": "Mofle (s)",
+            "fallas": [
+              14
+            ]
+          }
+        ]
+      },
+      {
+        "id_ensamble": 7,
+        "instruccion": "Prueba: La salida o punta de escape no debe estar 15 cm (6”) más allá del perímetro del vehículo.",
+        "componentes": [
+          {
+            "id_componente": 0,
+            "descripcion": "Punta de escape",
+            "fallas": [
+              14
+            ]
+          }
+        ]
+      },
+      {
+        "id_ensamble": 8,
+        "instruccion": "Inspeccione visual y manualmente el mofle o silenciador.Indique si algún componente presenta falla.",
+        "componentes": [
+          {
+            "id_componente": 0,
+            "descripcion": "Mofle (s)",
+            "fallas": [
+              3,
+              4,
+              5,
+              10,
+              11,
+              12,
+              13
+            ]
+          },
+          {
+            "id_componente": 1,
+            "descripcion": "Coberturas térmicas del mofle (s)",
+            "fallas": [
+              4,
+              5,
+              10,
+              11
+            ]
+          },
+          {
+            "id_componente": 2,
+            "descripcion": "Montaje y sus herrajes del mofle",
+            "fallas": [
+              3,
+              4,
+              5,
+              10,
+              11,
+              12
+            ]
+          },
+          {
+            "id_componente": 3,
+            "descripcion": "Punta de escape",
+            "fallas": [
+              3,
+              4,
+              5,
+              10,
+              12,
+              13
+            ]
+          }
+        ]
+      },
+      {
+        "id_ensamble": 9,
+        "instruccion": "Inspeccione visual y manualmente los componentes del ensamble de frenos del primer eje, lado izquierdo.Mida el desgaste de forros y tambores.Mida el ovalamiento del tambor.Indique si algún componente presenta falla.",
+        "componentes": [
+          {
+            "id_componente": 0,
+            "descripcion": "Forros de balatas adheridos",
+            "fallas": [
+              2,
+              3,
+              5,
+              6,
+              9,
+              10,
+              11
+            ]
+          },
+          {
+            "id_componente": 1,
+            "descripcion": "Forros de balatas remachados",
+            "fallas": [
+              2,
+              3,
+              5,
+              6,
+              9,
+              10,
+              11,
+              12
+            ]
+          },
+          {
+            "id_componente": 2,
+            "descripcion": "Autoajustadores",
+            "fallas": [
+              9,
+              10,
+              11,
+              15
+            ]
+          },
+          {
+            "id_componente": 3,
+            "descripcion": "Cables de autoajustadores y acoplamiento",
+            "fallas": [
+              5,
+              10,
+              15
+            ]
+          },
+          {
+            "id_componente": 4,
+            "descripcion": "Pasadores de anclaje y resortes",
+            "fallas": [
+              5,
+              10,
+              12
+            ]
+          },
+          {
+            "id_componente": 5,
+            "descripcion": "Plato posterior",
+            "fallas": [
+              3,
+              12
+            ]
+          },
+          {
+            "id_componente": 6,
+            "descripcion": "Tambores de freno",
+            "fallas": [
+              2,
+              5,
+              9,
+              11,
+              12
+            ]
+          }
+        ]
+      },
+      {
+        "id_ensamble": 10,
+        "instruccion": "Inspeccione visual y manualmente los componentes del ensamble de frenos del primer eje, lado derecho.Mida el desgaste de forros y tambores.Mida el ovalamiento del tambor.Indique si algún componente presenta falla.",
+        "componentes": [
+          {
+            "id_componente": 0,
+            "descripcion": "Forros de balatas adheridos",
+            "fallas": [
+              2,
+              3,
+              5,
+              6,
+              9,
+              10,
+              11
+            ]
+          },
+          {
+            "id_componente": 1,
+            "descripcion": "Forros de balatas remachados",
+            "fallas": [
+              2,
+              3,
+              5,
+              6,
+              9,
+              10,
+              11,
+              12
+            ]
+          },
+          {
+            "id_componente": 2,
+            "descripcion": "Autoajustadores",
+            "fallas": [
+              9,
+              10,
+              11,
+              15
+            ]
+          },
+          {
+            "id_componente": 3,
+            "descripcion": "Cables de autoajustadores y acoplamiento",
+            "fallas": [
+              5,
+              10,
+              15
+            ]
+          },
+          {
+            "id_componente": 4,
+            "descripcion": "Pasadores de anclaje y resortes",
+            "fallas": [
+              5,
+              10,
+              12
+            ]
+          },
+          {
+            "id_componente": 5,
+            "descripcion": "Plato posterior",
+            "fallas": [
+              3,
+              12
+            ]
+          },
+          {
+            "id_componente": 6,
+            "descripcion": "Tambores de freno",
+            "fallas": [
+              2,
+              5,
+              9,
+              11,
+              12
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

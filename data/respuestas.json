@@ -1,0 +1,104 @@
+[
+	{
+		id_vehiculo:0,
+    	id_normatividad: 0,
+		instrucciones:[
+			{
+				id_ensamble: 1,
+				componentes: [
+					{
+						id_componente: 0,
+						reparar: false,
+						fechaReprogramacion: 1560825505454, //time
+						valor: 34,
+						foto: 'base64',
+						fallas:[
+							{
+								id_falla: 1,
+								acciones: [1,2],
+								valor: '',
+							},
+							{
+								id_falla: 9,
+								acciones: [3],
+								valor: '',
+							},
+							{
+								id_falla:10,
+								acciones: [4],
+								valor: '',
+							},
+						]
+					},
+					{
+						id_componente: 1,
+						reparar: false,
+						fechaReprogramacion: 1560825505454, //time
+						valor: 34,
+						foto: 'base64',
+						fallas:[
+							{
+								id_falla: 1,
+								acciones: [1,2],
+								valor: '',
+							},
+							{
+								id_falla: 2,
+								acciones: [3],
+								valor: '',
+							},
+							{
+								id_falla:3,
+								acciones: [4],
+								valor: '',
+							},
+						]
+					},
+					{
+						id_componente: 2,
+						reparar: false,
+						fechaReprogramacion: 1560825505454, //time
+						valor: 34,
+						foto: 'base64',
+						fallas:[
+							{
+								id_falla: 6,
+								acciones: [1,2],
+								valor: '',
+							},
+							{
+								id_falla: 10,
+								acciones: [3],
+								valor: '',
+							},
+							{
+								id_falla:11,
+								acciones: [4],
+								valor: '',
+							},
+						]
+					},
+					{
+						id_componente: 3,
+						reparar: false,
+						fechaReprogramacion: 1560825505454, //time
+						valor: 34,
+						foto: 'base64',
+						fallas:[
+							{
+								id_falla: 5,
+								acciones: [1,2],
+								valor: '',
+							},
+							{
+								id_falla: 10,
+								acciones: [3],
+								valor: '',
+							},
+						]
+					}
+				]
+			}
+		]
+	}
+]

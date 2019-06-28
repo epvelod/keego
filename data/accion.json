@@ -1,0 +1,32 @@
+[{
+	id_accion_falla:1,
+	descripcion: 'Ajustar',
+},
+{
+	id_accion_falla:2,
+	descripcion: 'Limpiar',
+},
+{
+	id_accion_falla:3,
+	descripcion: 'Reemplazar con nuevo',
+},
+{
+	id_accion_falla:4,
+	descripcion: 'Reemplazar con reparado',
+},
+{
+	id_accion_falla:5,
+	descripcion: 'Reemplazar usado',
+},
+{
+	id_accion_falla:6,
+	descripcion: 'Inspeccionar',
+},
+{
+	id_accion_falla:7,
+	descripcion: 'Lubricar',
+},
+{
+	id_accion_falla:8,
+	descripcion: 'Overhaul',
+}]

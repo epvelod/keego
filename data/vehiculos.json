@@ -1,0 +1,38 @@
+[
+	{
+		normatividad_vehiculo_persona: {
+			vehiculo: {
+				id_vehiculo: 0,
+				codigo_vehiculo: 'COD1',
+				ubicacion: {estado: 'Hidalgo'},
+				descripcion: 'Es un cinco puertas con motor delantero transversal, que se comercializa desde el año 2006 con tracción delantera o a las cuatro ruedas, y con cinco o siete plazas.',
+				estatus: 0,
+			},
+    		id_normatividad: 0,
+		}
+	},
+	{
+		normatividad_vehiculo_persona: {
+			vehiculo: {
+				id_vehiculo: 1,
+				codigo_vehiculo: 'COD2',
+				ubicacion: {estado: 'Oaxaca'},
+				descripcion: 'Es un cinco puertas con motor delantero transversal, que se comercializa desde el año 2006 con tracción delantera o a las cuatro ruedas, y con cinco o siete plazas.',
+				estatus: 1,
+			},
+    		id_normatividad: 0,
+		}
+	},
+	{
+		normatividad_vehiculo_persona: {
+			vehiculo: {
+				id_vehiculo: 2,
+				codigo_vehiculo: 'COD3',
+				ubicacion: {estado: 'Ciudad de México'},
+				descripcion: 'Es un cinco puertas con motor delantero transversal, que se comercializa desde el año 2006 con tracción delantera o a las cuatro ruedas, y con cinco o siete plazas.',
+				estatus: 2,
+			},
+    		id_normatividad: 0,
+		}
+	},
+]
