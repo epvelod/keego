@@ -4,6 +4,7 @@ import {
   Alert,
   Image,
   Modal,
+  NetInfo,
   Platform,
   ScrollView,
   StyleSheet,
@@ -49,29 +50,26 @@ export default class HomeScreen extends React.Component {
   /*                 Eventos          **/
   /*Loading method*/
   _loadResourcesAsync = async () => {
-    console.log('traza 1');
+
+    const info = await NetInfo.getConnectionInfo();
+    
+    if(info.type=='wifi' || info.type=='cellular') {
+      this._downloadData();
+    }
+
     const props =  await FileSystem.getInfoAsync(`${this.folderPath}`);
     if (!props.exists) {
       await FileSystem.makeDirectoryAsync(this.folderPath, {
         intermediates: true,
       });
     }
-    console.log('traza 2');
     const propsFile =  await FileSystem.getInfoAsync(`${this.folderPath}/respuestas.json`);
-    console.log(propsFile);
     if (!propsFile.exists) {
-    console.log('encoding:');
-    console.log(FileSystem);
-    console.log(FileSystem.EncodingType);
       await FileSystem.writeAsStringAsync(
         `${this.folderPath}/respuestas.json`, 
         JSON.stringify([]), 
         { encoding: FileSystem.EncodingType.UTF8 });
-    console.log('fin');
     }
-    const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/respuestas.json`, { encoding: FileSystem.EncodingType.UTF8 });
-    console.log('traza 3.5');
-    console.log(content);
   };
   _handleLoadingError(error) {
     console.warn(error);
@@ -144,6 +142,9 @@ export default class HomeScreen extends React.Component {
         selectedLoads: this.state.selectedLoads.filter(e=> e!= valueFilter)
       });
     }
+  }
+  _downloadData() {
+
   }
 
   render() {

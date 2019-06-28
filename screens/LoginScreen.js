@@ -4,10 +4,11 @@ import { createAppContainer, createStackNavigator } from 'react-navigation'; // 
 
 import { FontAwesome } from '@expo/vector-icons';
 import * as Crypto from 'expo-crypto';
+import * as FileSystem from 'expo-file-system'
 
 
 import Colors from '../constants/Colors';
-import usuario from '../data/usuario';
+import Params from '../constants/Params';
 
 
 class FadeInView extends React.Component {
@@ -42,6 +43,7 @@ class FadeInView extends React.Component {
 }
 
 export default class LoginScreen extends React.Component {
+  folderPath = `${FileSystem.documentDirectory}formas`;
   state = {
   	user : '',
   	pass : '',
@@ -52,10 +54,20 @@ export default class LoginScreen extends React.Component {
 		  this.state.pass
 		);
 		const info = await NetInfo.getConnectionInfo();
-  	console.log(info.type=='wifi' || info.type=='cellular');
-  	console.log(NetInfo.ConnectionType);
-  	if( digest == usuario.password && usuario.user == this.state.user) {
 
+  	if(info.type=='wifi' || info.type=='cellular') {
+  		if(await this._netLogin(this.state.user, digest)){
+    		this.props.navigation.navigate('Main');	
+    		return;
+  		}
+  	}
+
+		const fileContent =  await FileSystem.readAsStringAsync(
+			`${this.folderPath}/usuario.json`, 
+			{ encoding: FileSystem.EncodingType.UTF8 });
+		const usuario = JSON.parse(fileContent);
+
+  	if( digest == usuario.password && usuario.user == this.state.user) {
     	this.props.navigation.navigate('Main');
   	} else {
       Alert.alert(
@@ -74,17 +86,57 @@ export default class LoginScreen extends React.Component {
       );
   	}
   }
+
+  async _fetchUserAsync(usr,pass) {
+	  const rawResponse = await fetch(Params.login, {
+	    method: 'POST',
+	    headers: {
+	      'Accept': 'application/json',
+	      'Content-Type': 'application/json'
+	    },
+	    body: JSON.stringify({usr: usr, pass: pass})
+	  });
+	  const content = await rawResponse.json();
+	  return content;
+	}
+
   _usr({text}) {
   	this.setState({
   		...this.state,
   		user: text ,
   	});
   }
+
   _pass({text}) {
   	this.setState({
   		...this.state,
   		pass: text ,
   	});
+  }
+
+  async _netLogin(usr,pass) {
+  	const result  = await this._fetchUserAsync(usr,pass);
+
+  	if(!result || !result.loged) {
+  		return false;
+  	}
+
+    const props =  await FileSystem.getInfoAsync(`${this.folderPath}`);
+    if (!props.exists) {
+      await FileSystem.makeDirectoryAsync(this.folderPath, {
+        intermediates: true,
+      });
+    }
+
+    const propsFile =  await FileSystem.getInfoAsync(`${this.folderPath}/usuario.json`);
+    if (!propsFile.exists) {
+      await FileSystem.writeAsStringAsync(
+        `${this.folderPath}/usuario.json`, 
+        JSON.stringify(result), 
+        { encoding: FileSystem.EncodingType.UTF8 });
+    }
+
+    return true;
   }
   render() {
     return (
