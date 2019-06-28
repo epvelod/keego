@@ -32,10 +32,19 @@ export default class CheckItem extends React.Component {
     });
   }
 
+  _onPress() {
+    this.props.onChange(this.state.value, !this.state.selected);
+
+    this.setState({
+      ...this.state,
+      selected: !this.state.selected
+    });
+  }
+
   render() {
     if (Platform.OS === 'android') {
       return (
-        <TouchableNativeFeedback onPress={() => this.props.onPress()}>
+        <TouchableNativeFeedback onPress={() => this._onPress()}>
         <View style={{ flexDirection: 'row' }}>
               <CheckBox value={this.state.selected}
               onChange={()=>this._onChange()}>
@@ -48,7 +57,7 @@ export default class CheckItem extends React.Component {
       );
     } else {
       return (
-        <TouchableHighlight onPress={() => this.props.onPress()}>
+        <TouchableHighlight onPress={() => this._onPress()}>
         <View style={{ flexDirection: 'row' }}>
               <CheckBox value={this.state.selected}
               onChange={()=>this._onChange()}>

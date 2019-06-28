@@ -95,6 +95,12 @@ export default class HomeScreen extends React.Component {
       apply |= (this.state.selectedSerch.includes('cliente') ? normatividad_vehiculo_persona.vehiculo.codigo_vehiculo.includes(text) : false);
       apply |= (this.state.selectedSerch.includes('ubicacion') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
       apply |= (this.state.selectedSerch.includes('pendiente') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
+      apply |= (this.state.selectedSerch.includes('proceso') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
+      apply |= (this.state.selectedSerch.includes('rechazada') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
+      apply |= (this.state.selectedSerch.includes('aprobada') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
+      apply |= (this.state.selectedSerch.includes('pendienteCargas') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
+      apply |= (this.state.selectedSerch.includes('error') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
+      apply |= (this.state.selectedSerch.includes('cargada') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
 
       return apply;
     });
@@ -312,34 +318,34 @@ export default class HomeScreen extends React.Component {
                       Pendiente
                     </CheckItem>
                     <CheckItem value="proceso" 
-                    onChange={(value, isSelected)=>this._onStatusFilterChange(value, isSelected)}
+                    onChange={(value, isSelected)=>this._onUbicationFilterChange(value, isSelected)}
                     checked={this.state.selectedStatus.includes("proceso")}>
                       En proceso
                     </CheckItem>
                     <CheckItem value="rechazada" 
-                    onChange={(value, isSelected)=>this._onStatusFilterChange(value, isSelected)}
+                    onChange={(value, isSelected)=>this._onUbicationFilterChange(value, isSelected)}
                     checked={this.state.selectedStatus.includes("rechazada")}>
                       Rechazada
                     </CheckItem>
                     <CheckItem value="aprobada" 
-                    onChange={(value, isSelected)=>this._onStatusFilterChange(value, isSelected)}
+                    onChange={(value, isSelected)=>this._onUbicationFilterChange(value, isSelected)}
                     checked={this.state.selectedStatus.includes("aprobada")}>
                       Aprobada
                     </CheckItem>
                     
                   <SubTituloPequeno style={{marginTop: 10}}>Cargas</SubTituloPequeno>
                     <CheckItem value="pendiente" 
-                    onChange={(value, isSelected)=>this._onLoadFilterChange(value, isSelected)}
-                    checked={this.state.selectedLoads.includes("pendiente")}>
+                    onChange={(value, isSelected)=>this._onUbicationFilterChange(value, isSelected)}
+                    checked={this.state.selectedLoads.includes("pendienteCargas")}>
                       Pendiente
                     </CheckItem>
                     <CheckItem value="error" 
-                    onChange={(value, isSelected)=>this._onLoadFilterChange(value, isSelected)}
+                    onChange={(value, isSelected)=>this._onUbicationFilterChange(value, isSelected)}
                     checked={this.state.selectedLoads.includes("error")}>
                       Error de carga
                     </CheckItem>
                     <CheckItem value="cargada" 
-                    onChange={(value, isSelected)=>this._onLoadFilterChange(value, isSelected)}
+                    onChange={(value, isSelected)=>this._onUbicationFilterChange(value, isSelected)}
                     checked={this.state.selectedLoads.includes("cargada")}>
                       Cargada
                     </CheckItem>
