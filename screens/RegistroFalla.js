@@ -35,7 +35,7 @@ export default class RegistroFalla extends React.Component {
     traza:{},
     respuestas:[],
     fallasAns:[],
-    accionesAns:[]
+    accionesAns:[],
   }
   constructor(props){
     super(props);

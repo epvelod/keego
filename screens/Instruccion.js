@@ -57,7 +57,8 @@ export default class Instruccion extends React.Component {
     const data = navigation.getParam('data', {instruccion:'...',componentes:[]});
     const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/respuestas.json`, { encoding: FileSystem.EncodingType.UTF8 });
     const respuestas = JSON.parse(content)||[];
-    
+    console.log('content');
+    console.log(content);
     const selecteds = await this.pintaComponente(respuestas,traza,data);
 
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -179,7 +180,8 @@ export default class Instruccion extends React.Component {
     this.props.navigation.goBack();
   }
   async _finInstruccion() {
-    const respuestas = this.state.respuestas;
+    const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/respuestas.json`, { encoding: FileSystem.EncodingType.UTF8 });
+    const respuestas = JSON.parse(content)||[];
     const traza = this.state.traza;
 
     let comRes=[];

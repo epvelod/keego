@@ -53,15 +53,33 @@ export default class LoginScreen extends React.Component {
 		  Crypto.CryptoDigestAlgorithm.SHA256,
 		  this.state.pass
 		);
-		const info = await NetInfo.getConnectionInfo();
 
+    /*login internet*/
+		const info = await NetInfo.getConnectionInfo();
   	if(info.type=='wifi' || info.type=='cellular') {
   		if(await this._netLogin(this.state.user, digest)){
     		this.props.navigation.navigate('Main');	
     		return;
-  		}
+  		} else {
+        Alert.alert(
+          'Usuairo o contraseña invalido',
+          '',
+          [
+            {text: 'OK', 
+            onPress: () => 
+              this.setState({
+                ...this.state,
+                pass: '' ,
+              })
+            },
+          ],
+          {cancelable: false},
+        );
+        return;
+      }
   	}
 
+    /*login offline*/
 		const fileContent =  await FileSystem.readAsStringAsync(
 			`${this.folderPath}/usuario.json`, 
 			{ encoding: FileSystem.EncodingType.UTF8 });

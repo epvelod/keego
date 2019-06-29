@@ -6,7 +6,6 @@ import {
   TouchableHighlight, 
   TouchableOpacity, 
   TouchableNativeFeedback, 
-  TouchableWithoutFeedback, 
 } from 'react-native';
 
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
@@ -31,25 +30,27 @@ export default class Item extends React.Component {
 		flexDirection: 'row',
 		marginBottom: 10
 		}}>
-			<View style={{
-	              width: 45,
-	              flexDirection: 'column',
-	              justifyContent: 'center',
-	              alignItems: 'stretch',
-			  }}>
-			      <FontAwesome
-			        name="database"
-			        size={26}
-			        style={{  }}
-			        color={Colors.grisOscuro}
-			      />
-			      <FontAwesome
-			        name="cloud"
-			        size={26}
-			        style={{ paddingLeft: 10 }}
-			        color={level[this.props.estatus]}
-			      />
-			</View>
+			<TouchableOpacity onPress={() => this.props.onDescargar()} underlayColor="white">
+				<View style={{
+		              width: 45,
+		              flexDirection: 'column',
+		              justifyContent: 'center',
+		              alignItems: 'stretch',
+				  }}>
+				      <FontAwesome
+				        name="database"
+				        size={26}
+				        style={{  }}
+				        color={Colors.grisOscuro}
+				      />
+				      <FontAwesome
+				        name="cloud"
+				        size={26}
+				        style={{ paddingLeft: 10 }}
+				        color={level[this.props.estatus]}
+				      />
+				</View>
+			</TouchableOpacity>
 			<View style={{flex: 4,
 			  backgroundColor: '#fff', 
 			  borderTopRightRadius: 10,
@@ -78,7 +79,7 @@ export default class Item extends React.Component {
 		              alignItems: 'center', 
 		              }}>
 
-						<TouchableWithoutFeedback onPress={() => this.props.onGrafica()} underlayColor="white">
+						<TouchableOpacity onPress={() => this.props.onGrafica()} underlayColor="white">
 				            <View style={{
 				              height: 36,
 				              width: 36,
@@ -95,9 +96,9 @@ export default class Item extends React.Component {
 								/>
 				                
 				            </View>
-						</TouchableWithoutFeedback>
+						</TouchableOpacity>
 
-						<TouchableWithoutFeedback onPress={() => this.props.onEvaluar()} underlayColor="white">
+						<TouchableOpacity onPress={() => this.props.onEvaluar()} underlayColor="white">
 				            <View style={{
 				              height: 36,
 				              width: 36,
@@ -113,7 +114,7 @@ export default class Item extends React.Component {
 									color={Colors.grisOscuro}
 								/>
 				            </View>
-						</TouchableWithoutFeedback>
+						</TouchableOpacity>
 		            </View>
 				</View>
 		</View>

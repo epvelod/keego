@@ -39,6 +39,8 @@ export default class HomeScreen extends React.Component {
     selectedStatus: [],
     selectedLoads: [],
     vehiculos: [],
+
+    isSendingData:false,
   };
 
   static navigationOptions = {
@@ -151,6 +153,64 @@ export default class HomeScreen extends React.Component {
       });
     }
   }
+  async _uploading() {
+    if(this.state.isSendingData) {
+      Alert.alert(
+        'La información esta siendo enviada',
+        '',
+        [
+          {text: 'ACEPTAR'},
+        ],
+        {cancelable: false},
+      );
+      return;
+    }
+
+    const info = await NetInfo.getConnectionInfo();
+    if(info.type != 'wifi' && info.type!='cellular') {
+      Alert.alert(
+        'Error en conexión a internet',
+        '',
+        [
+          {text: 'ACEPTAR'},
+        ],
+        {cancelable: false},
+      );
+
+      this.setState({
+        ...this.state,
+        isSendingData: false
+      });
+
+      return;
+    }
+
+    /*si hay conexion intenta descargarlo*/
+    const respuestas = await this._readJSONFiles('respuestas');
+    const rawResponse = await fetch(Params.respuestas, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(respuestas)
+    });
+    const content = await rawResponse.json();
+    if(content.status && content.status == 'ok') {
+      Alert.alert(
+        'La información se actualizo correctamente',
+        '',
+        [
+          {text: 'ACEPTAR'},
+        ],
+        {cancelable: false},
+      );
+    }
+    this.setState({
+      ...this.state,
+      isSendingData: false
+    });
+  }
   async _loadDataVehiculos() {
     /*si no hay conexion cargo el archivo*/
     const info = await NetInfo.getConnectionInfo();
@@ -161,7 +221,6 @@ export default class HomeScreen extends React.Component {
 
     /*si hay conexion intenta descargarlo*/
     const usuario = await this._readJSONFiles('usuario');
-    console.log(Params.vehiculo);
     const rawResponse = await fetch(Params.vehiculo, {
       method: 'POST',
       headers: {
@@ -239,7 +298,7 @@ export default class HomeScreen extends React.Component {
                         })
                       }
                       onGrafica={() => this.props.navigation.navigate('Instrucciones')}
-                      onDescargar={() => this.props.navigation.navigate('Formulario')}>
+                      onDescargar={() => this._uploading()}>
                         {normatividad_vehiculo_persona.vehiculo.descripcion}
                       </Item> 
                   );
