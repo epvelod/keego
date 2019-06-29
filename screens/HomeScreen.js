@@ -21,9 +21,7 @@ import CheckItem from '../components/CheckItem';
 import BotonListo from '../components/BotonListo';
 
 import Colors from '../constants/Colors';
-
-import vehiculos from '../data/vehiculos.json';
-import usuario from '../data/usuario.json';
+import Params from '../constants/Params';
 
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { AppLoading } from 'expo';
@@ -40,7 +38,7 @@ export default class HomeScreen extends React.Component {
     selectedSerch: ['cliente','ubicacion'],
     selectedStatus: [],
     selectedLoads: [],
-    vehiculos: vehiculos,
+    vehiculos: [],
   };
 
   static navigationOptions = {
@@ -50,12 +48,8 @@ export default class HomeScreen extends React.Component {
   /*                 Eventos          **/
   /*Loading method*/
   _loadResourcesAsync = async () => {
-
-    const info = await NetInfo.getConnectionInfo();
     
-    if(info.type=='wifi' || info.type=='cellular') {
-      this._downloadData();
-    }
+    const vehiculos = await this._loadDataVehiculos();
 
     const props =  await FileSystem.getInfoAsync(`${this.folderPath}`);
     if (!props.exists) {
@@ -70,6 +64,13 @@ export default class HomeScreen extends React.Component {
         JSON.stringify([]), 
         { encoding: FileSystem.EncodingType.UTF8 });
     }
+
+    await this._imagesFile();
+
+    this.setState({
+      ...this.state,
+      vehiculos: vehiculos
+    });
   };
   _handleLoadingError(error) {
     console.warn(error);
@@ -87,7 +88,8 @@ export default class HomeScreen extends React.Component {
       modalVisible: false,
     });
   };
-  _filtrar = ({text}) => {
+  _filtrar = async ({text}) => {
+    const vehiculos = await this._readJSONFiles('vihiculo');
     const vehiculosF = vehiculos.filter(({ normatividad_vehiculo_persona }, index) => {
       let apply = false;
       apply |= (this.state.selectedSerch.includes('cliente') ? normatividad_vehiculo_persona.vehiculo.codigo_vehiculo.includes(text) : false);
@@ -149,8 +151,63 @@ export default class HomeScreen extends React.Component {
       });
     }
   }
-  _downloadData() {
+  async _loadDataVehiculos() {
+    /*si no hay conexion cargo el archivo*/
+    const info = await NetInfo.getConnectionInfo();
+    if(info.type != 'wifi' && info.type!='cellular') {
+      const vihiculo = await this._readJSONFiles('vihiculo');
+      return vihiculo;
+    }
 
+    /*si hay conexion intenta descargarlo*/
+    const usuario = await this._readJSONFiles('usuario');
+    console.log(Params.vehiculo);
+    const rawResponse = await fetch(Params.vehiculo, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({id_usuario: usuario.id_usuario})
+    });
+    const content = await rawResponse.json();
+    console.log(content);
+    await FileSystem.writeAsStringAsync(
+      `${this.folderPath}/vihiculo.json`, 
+      JSON.stringify(content), 
+      { encoding: FileSystem.EncodingType.UTF8 });
+
+    return content;
+  }
+
+  async _readJSONFiles(file) {
+    const fileContent =  await FileSystem.readAsStringAsync(
+      `${this.folderPath}/${file}.json`, 
+      { encoding: FileSystem.EncodingType.UTF8 });
+    const content = JSON.parse(fileContent);
+    return content;
+  }
+
+  async _imagesFile() {
+    let propsFile;
+    let id_normatividad_vehiculo_persona;
+    const vehiculos = await this._readJSONFiles('vihiculo');
+
+    for (var i = 0; i < vehiculos.length; i++) {
+      id_normatividad_vehiculo_persona = vehiculos[i]
+        .normatividad_vehiculo_persona
+        .id_normatividad_vehiculo_persona;
+
+      propsFile =  await FileSystem
+        .getInfoAsync(`${this.folderPath}/images${id_normatividad_vehiculo_persona}.json`);
+
+      if (!propsFile.exists) {
+        await FileSystem.writeAsStringAsync(
+          `${this.folderPath}/images${id_normatividad_vehiculo_persona}.json`, 
+          JSON.stringify([]), 
+          { encoding: FileSystem.EncodingType.UTF8 });
+      }
+    }
   }
 
   render() {
@@ -174,6 +231,7 @@ export default class HomeScreen extends React.Component {
                       onEvaluar={() => this.props.navigation.navigate('Instrucciones', 
                         { 
                           traza: {
+                            id_normatividad_vehiculo_persona: normatividad_vehiculo_persona.id_normatividad_vehiculo_persona,
                             id_vehiculo: normatividad_vehiculo_persona.vehiculo.id_vehiculo,
                             id_normatividad: normatividad_vehiculo_persona.id_normatividad,
                             instruccion: {},

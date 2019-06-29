@@ -129,13 +129,11 @@ export default class LoginScreen extends React.Component {
     }
 
     const propsFile =  await FileSystem.getInfoAsync(`${this.folderPath}/usuario.json`);
-    if (!propsFile.exists) {
-      await FileSystem.writeAsStringAsync(
-        `${this.folderPath}/usuario.json`, 
-        JSON.stringify(result), 
-        { encoding: FileSystem.EncodingType.UTF8 });
-    }
-
+    await FileSystem.writeAsStringAsync(
+      `${this.folderPath}/usuario.json`, 
+      JSON.stringify(result), 
+      { encoding: FileSystem.EncodingType.UTF8 });
+    
     return true;
   }
   render() {

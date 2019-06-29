@@ -79,7 +79,9 @@ export default class Instrucciones extends React.Component {
     console.log('traza3');
 
     for (var i = 0; i < obj.length; i++) {
-      if(obj[i].id_normatividad === traza.id_normatividad && obj[i].id_normatividad === traza.id_normatividad) {
+      if(obj[i].id_normatividad === traza.id_normatividad 
+        && obj[i].id_vehiculo === traza.id_vehiculo
+        && obj[i].id_normatividad_vehiculo_persona === traza.id_normatividad_vehiculo_persona) {
         respuesta = obj[i];
         respuesta.instrucciones = respuesta.instrucciones.length > 0 ? respuesta.instrucciones: 
           [{
@@ -95,6 +97,7 @@ export default class Instrucciones extends React.Component {
     /*Primer entrada*/
     if(!containAnswer) {
       respuesta = {
+        id_normatividad_vehiculo_persona: traza.id_normatividad_vehiculo_persona,
         id_vehiculo: traza.id_vehiculo,
         id_normatividad: traza.id_normatividad,
         instrucciones: [{
