@@ -11,7 +11,8 @@ import {
   ActivityIndicator,
   CheckBox,
 } from 'react-native';
-import { FileSystem } from 'expo';
+
+import * as FileSystem from 'expo-file-system'
 
 import { MonoText, Titulo, Descripcion } from '../components/StyledText';
 import Card from '../components/Card';
@@ -52,7 +53,10 @@ export default class Fallas extends React.Component {
     const respuestas = JSON.parse(content)||[];
     console.log('F: respuestas');
     console.log(respuestas);
-    const vihiculosA = respuestas.filter((e) => e.id_vehiculo === traza.id_vehiculo && e.id_normatividad === traza.id_normatividad )[0];
+    const vihiculosA = respuestas.filter((e) => e.id_vehiculo === traza.id_vehiculo 
+      && e.id_normatividad === traza.id_normatividad 
+      && e.id_normatividad_vehiculo_persona === traza.id_normatividad_vehiculo_persona 
+      )[0];
     const instruccionesA = vihiculosA.instrucciones.filter((e) => e.id_ensamble === traza.instruccion.ensamble.id_ensamble )[0];
 
     const compA = instruccionesA.componentes.filter(e=>e.id_componente===traza.instruccion.ensamble.componente.id_componente);

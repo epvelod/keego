@@ -42,7 +42,6 @@ export default class Instrucciones extends React.Component {
     const didBlurSubscription = this.props.navigation.addListener(
       'willFocus',
       payload => {
-        console.log("foco");
         this.setState({
           ...this.state,
           isLoadingComplete: false
@@ -62,21 +61,14 @@ export default class Instrucciones extends React.Component {
         instruccion:{}
       });
 
-    console.log('traza.id_normatividad');
-    console.log(traza.id_normatividad);
     const formulario = formularios.filter((e) => e.id_normatividad === traza.id_normatividad)[0] || {instrucciones:[]};
 
-    console.log('traza4');
     const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/respuestas.json`, { encoding: FileSystem.EncodingType.UTF8 });
-    console.log('traza3.5');
     const obj = JSON.parse(content)||[];
-    console.log('respuesta');
-    console.log(obj);
     let respuesta;
 
     /*Buscamos si ya existe el vehicolo en las respuestas*/
     let containAnswer = false;
-    console.log('traza3');
 
     for (var i = 0; i < obj.length; i++) {
       if(obj[i].id_normatividad === traza.id_normatividad 
@@ -92,7 +84,6 @@ export default class Instrucciones extends React.Component {
         break;
       }
     }
-    console.log('traza2');
 
     /*Primer entrada*/
     if(!containAnswer) {
@@ -109,15 +100,12 @@ export default class Instrucciones extends React.Component {
       obj.push(respuesta);
     }
 
-    console.log('traza1');
 
     await FileSystem.writeAsStringAsync(
       `${this.folderPath}/respuestas.json`, 
       JSON.stringify(obj), 
       { encoding: FileSystem.EncodingType.UTF8 });
 
-    console.log('traza0');
-    console.log(traza);
     this.setState({
       ...this.state,
       respuestas:obj,
@@ -145,8 +133,6 @@ export default class Instrucciones extends React.Component {
 
   render() {
     /*Cargando...*/
-    console.log('this.state');
-    console.log(this.state);
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <AppLoading
@@ -159,17 +145,8 @@ export default class Instrucciones extends React.Component {
 
     /*find or build information*/
     const formulario = formularios.filter((e) => e.id_normatividad === this.state.traza.id_normatividad)[0] || {instrucciones:[]};
-    console.log('this.state.traza.id_normatividad');
-    console.log(this.state.traza.id_normatividad);
-    console.log('formularios');
-    console.log(formularios);
-    console.log('formulario');
-    console.log(formulario);
     const respuesta = this.state.respuesta;
     /*build items*/
-    console.log(formulario);
-    console.log(respuesta);
-    console.log(items);
     const items = formulario.instrucciones.map((ensamble, index) => {
       const marked = (respuesta.instrucciones.length>0) 
         && (ensamble.id_ensamble <= respuesta.instrucciones[respuesta.instrucciones.length-1].id_ensamble);

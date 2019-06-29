@@ -10,7 +10,7 @@
 				"descripcion": "Es un cinco puertas con motor delantero transversal, que se comercializa desde el año 2006 con tracción delantera o a las cuatro ruedas, y con cinco o siete plazas.",
 				"estatus": 0
 			},
-    "id_normatividad": 0
+    		"id_normatividad": 0
 		}
 	},
 	{
@@ -24,7 +24,7 @@
 				"descripcion": "Es un cinco puertas con motor delantero transversal, que se comercializa desde el año 2006 con tracción delantera o a las cuatro ruedas, y con cinco o siete plazas.",
 				"estatus": 1
 			},
-    "id_normatividad": 0
+    		"id_normatividad": 0
 		}
 	},
 	{
@@ -38,7 +38,7 @@
 				"descripcion": "Es un cinco puertas con motor delantero transversal, que se comercializa desde el año 2006 con tracción delantera o a las cuatro ruedas, y con cinco o siete plazas.",
 				"estatus": 2
 			},
-    "id_normatividad": 0
+    		"id_normatividad": 0
 		}
 	}
 ]

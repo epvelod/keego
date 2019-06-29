@@ -11,7 +11,8 @@ import {
   ActivityIndicator,
   CheckBox,
 } from 'react-native';
-import { FileSystem } from 'expo';
+
+import * as FileSystem from 'expo-file-system'
 
 import { MonoText, Titulo, Descripcion, SubTitulo } from '../components/StyledText';
 import ItemAccion from '../components/ItemAccion';
@@ -20,8 +21,6 @@ import BotonCamara from '../components/BotonCamara';
 
 import { bookListQuery } from '../constants/Queries';
 import Colors from '../constants/Colors';
-
-import { Icon } from 'expo';
 
 import accion from '../data/accion.json';
 
@@ -47,10 +46,13 @@ export default class RegistroFalla extends React.Component {
     const id_falla = navigation.getParam('id_falla', -1);
     const traza = navigation.getParam('traza', {});
 
-    const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/respuestas.json`, { encoding: FileSystem.EncodingTypes.UTF8 });
+    const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/respuestas.json`, { encoding: FileSystem.EncodingType.UTF8 });
     const respuestas = JSON.parse(content)||[];
 
-    const vihiculosA = respuestas.filter((e) => e.id_vehiculo === traza.id_vehiculo && e.id_normatividad === traza.id_normatividad )[0];
+    const vihiculosA = respuestas.filter((e) => e.id_vehiculo === traza.id_vehiculo 
+      && e.id_normatividad === traza.id_normatividad 
+      && e.id_normatividad_vehiculo_persona === traza.id_normatividad_vehiculo_persona 
+      )[0];
     const instruccionesA = vihiculosA.instrucciones.filter((e) => e.id_ensamble === traza.instruccion.ensamble.id_ensamble )[0];
 
     const compA = instruccionesA.componentes.filter(e=>e.id_componente===traza.instruccion.ensamble.componente.id_componente);
@@ -104,7 +106,7 @@ export default class RegistroFalla extends React.Component {
 
     await FileSystem.writeAsStringAsync(`${this.folderPath}/respuestas.json`, 
       JSON.stringify(this.state.respuestas), 
-      { encoding: FileSystem.EncodingTypes.UTF8 });
+      { encoding: FileSystem.EncodingType.UTF8 });
 
     this.setState({...this.state, selecteds: this.state.selecteds});
   }

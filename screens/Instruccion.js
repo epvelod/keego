@@ -9,7 +9,11 @@ import {
   View,
 } from 'react-native';
 
-import { AppLoading, FileSystem, Camera, Permissions } from 'expo';
+import { AppLoading, } from 'expo';
+
+import * as FileSystem from 'expo-file-system'
+import * as Permissions from 'expo-permissions';
+import { Camera } from 'expo-camera';
 
 import { MonoText, Titulo, Descripcion } from '../components/StyledText';
 import BotonListo from '../components/BotonListo';
@@ -51,7 +55,6 @@ export default class Instruccion extends React.Component {
 
     const traza = navigation.getParam('traza', undefined);
     const data = navigation.getParam('data', {instruccion:'...',componentes:[]});
-
     const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/respuestas.json`, { encoding: FileSystem.EncodingType.UTF8 });
     const respuestas = JSON.parse(content)||[];
     
@@ -70,6 +73,7 @@ export default class Instruccion extends React.Component {
     });
   };
   _handleLoadingError = error => {
+    console.warn(error)
   };
   _handleFinishLoading = () => {
     this.setState({ ...this.state, isLoadingComplete: true });
@@ -112,7 +116,11 @@ export default class Instruccion extends React.Component {
     const componentsList = data.componentes;
     const selecteds = this.state.selecteds;
 
-    const vihiculosAnswer = respuestas.filter((e) => e.id_vehiculo === traza.id_vehiculo && e.id_normatividad === traza.id_normatividad )[0] || {instrucciones:[]}
+    const vihiculosAnswer = respuestas.filter((e) => e.id_vehiculo === traza.id_vehiculo 
+      && e.id_normatividad === traza.id_normatividad
+      && e.id_normatividad_vehiculo_persona === traza.id_normatividad_vehiculo_persona )[0] 
+    || {instrucciones:[]};
+
     const instruccionesAnswer = vihiculosAnswer.instrucciones.filter((e) => e.id_ensamble === traza.instruccion.ensamble.id_ensamble )[0]|| {componentes:[]};
     const componentsAnswer = instruccionesAnswer.componentes || [];
     for (var i = 0; i < componentsList.length; i++) {
@@ -132,7 +140,9 @@ export default class Instruccion extends React.Component {
 
     let comRes=[];
     for (var i = 0; i < respuestas.length; i++) {
-      if(respuestas[i].id_vehiculo === traza.id_vehiculo && respuestas[i].id_normatividad === traza.id_normatividad ) {
+      if(respuestas[i].id_vehiculo === traza.id_vehiculo 
+        && respuestas[i].id_normatividad === traza.id_normatividad         
+        && respuestas[i].id_normatividad_vehiculo_persona === traza.id_normatividad_vehiculo_persona) {
         for (var j = 0; j < respuestas[i].instrucciones.length; j++) {
           if(respuestas[i].instrucciones[j].id_ensamble === traza.instruccion.ensamble.id_ensamble ) {
 
@@ -174,15 +184,13 @@ export default class Instruccion extends React.Component {
 
     let comRes=[];
     for (var i = 0; i < respuestas.length; i++) {
-      if(respuestas[i].id_vehiculo === traza.id_vehiculo && respuestas[i].id_normatividad === traza.id_normatividad ) {
+      if(respuestas[i].id_vehiculo === traza.id_vehiculo 
+        && respuestas[i].id_normatividad === traza.id_normatividad 
+        && respuestas[i].id_normatividad_vehiculo_persona === traza.id_normatividad_vehiculo_persona ) {
         for (var j = 0; j < respuestas[i].instrucciones.length; j++) {
           if(respuestas[i].instrucciones[j].id_ensamble === traza.instruccion.ensamble.id_ensamble ) {
 
-            console.log('In respuesta');
-            console.log(respuestas[i]);
             const inst = formularios.filter((e) => e.id_normatividad === traza.id_normatividad)[0].instrucciones;
-            console.log('inst');
-            console.log(inst);
 
             if((j + 1)< inst.length && (j+1) === respuestas[i].instrucciones.length) {
               respuestas[i].instrucciones.push({
@@ -209,6 +217,7 @@ export default class Instruccion extends React.Component {
     let photo = undefined;
     if (this.camera) {
       photo = await this.camera.takePictureAsync({quality:0,base64:true,skipProcessing:true});
+      console.log(photo);
     }
     this.setState({...this.state, modalVisible: false, photoFile: photo})
   };
