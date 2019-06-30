@@ -39,6 +39,7 @@ export default class HomeScreen extends React.Component {
     selectedStatus: [],
     selectedLoads: [],
     vehiculos: [],
+    vehiculos2: [],
 
     isSendingData:false,
   };
@@ -71,7 +72,8 @@ export default class HomeScreen extends React.Component {
 
     this.setState({
       ...this.state,
-      vehiculos: vehiculos
+      vehiculos: vehiculos,
+      vehiculos2: vehiculos
     });
   };
   _handleLoadingError(error) {
@@ -82,24 +84,65 @@ export default class HomeScreen extends React.Component {
   };
 
   _toggleModal = () => {
+    console.log('Cerrar modal de filtros', this.state.selectedStatus); 
+    /*Especifico para los estatus */
+    if(this.state.selectedStatus.includes('pendiente')){
+      delete this.state.vehiculos[0];
+      delete this.state.vehiculos[2];
+    } else if(this.state.selectedStatus.includes('rechazada')){
+      delete this.state.vehiculos[1];
+      delete this.state.vehiculos[2];
+    } else if(this.state.selectedStatus.includes('proceso')){
+      delete this.state.vehiculos[1];
+      delete this.state.vehiculos[2];
+    } else {
+      this.state.vehiculos = this.state.vehiculos2;
+    }
+
     this.setState({ modalVisible: !this.state.modalVisible });
   };
-  _onClose = () => {
+  _onClose = () => {   
     this.setState({
       ...this.state,
       modalVisible: false,
     });
   };
+  _filtraLista = () => {
+    /*if(this.state.selectedSerch.includes('pendiente') 
+      || this.state.selectedSerch.includes('proceso') 
+      || this.state.selectedSerch.includes('rechazada') 
+      || this.state.selectedSerch.includes('aprobada')){
+
+        for(var a in vehiculos) {
+          //console.log("norma vehiculo: ",a, vehiculos[a]);
+          for (var b in normatividad) {
+            if(vehiculos[a].normatividad_vehiculo_persona.id_normatividad === normatividad[b].id_normatividad){
+              //console.log("norma coincide norma vehiculo: ", b, normatividad[b]);
+              if(normatividad[b].instrucciones.length > 0){
+                
+                // Borrado de la lista en funcion al filtro
+                if (this.state.selectedSerch.includes('pendiente')){
+                  delete vehiculos2[0];
+                } else if (this.state.selectedSerch.includes('proceso')){
+                  delete vehiculos2[1];
+                } else if (this.state.selectedSerch.includes('rechazada')){
+                  delete vehiculos2[2];
+                }
+                
+              }
+            }
+          }
+        }        
+    }*/
+  }
   _filtrar = async ({text}) => {
     const vehiculos = await this._readJSONFiles('vihiculo');
+    console.log('JSON vehiculos: ', vehiculos);
+
     const vehiculosF = vehiculos.filter(({ normatividad_vehiculo_persona }, index) => {
       let apply = false;
       apply |= (this.state.selectedSerch.includes('cliente') ? normatividad_vehiculo_persona.vehiculo.codigo_vehiculo.includes(text) : false);
       apply |= (this.state.selectedSerch.includes('ubicacion') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
-      apply |= (this.state.selectedSerch.includes('pendiente') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
-      apply |= (this.state.selectedSerch.includes('proceso') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
-      apply |= (this.state.selectedSerch.includes('rechazada') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
-      apply |= (this.state.selectedSerch.includes('aprobada') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
       apply |= (this.state.selectedSerch.includes('pendienteCargas') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
       apply |= (this.state.selectedSerch.includes('error') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
       apply |= (this.state.selectedSerch.includes('cargada') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
@@ -431,22 +474,22 @@ export default class HomeScreen extends React.Component {
                   
                   <SubTituloPequeno style={{marginTop: 10}}>Estatus</SubTituloPequeno>
                     <CheckItem value="pendiente" 
-                    onChange={(value, isSelected)=>this._onUbicationFilterChange(value, isSelected)}
+                    onChange={(value, isSelected)=>this._onStatusFilterChange(value, isSelected)}
                     checked={this.state.selectedStatus.includes("pendiente")}>
                       Pendiente
                     </CheckItem>
                     <CheckItem value="proceso" 
-                    onChange={(value, isSelected)=>this._onUbicationFilterChange(value, isSelected)}
+                    onChange={(value, isSelected)=>this._onStatusFilterChange(value, isSelected)}
                     checked={this.state.selectedStatus.includes("proceso")}>
                       En proceso
                     </CheckItem>
                     <CheckItem value="rechazada" 
-                    onChange={(value, isSelected)=>this._onUbicationFilterChange(value, isSelected)}
+                    onChange={(value, isSelected)=>this._onStatusFilterChange(value, isSelected)}
                     checked={this.state.selectedStatus.includes("rechazada")}>
                       Rechazada
                     </CheckItem>
                     <CheckItem value="aprobada" 
-                    onChange={(value, isSelected)=>this._onUbicationFilterChange(value, isSelected)}
+                    onChange={(value, isSelected)=>this._onStatusFilterChange(value, isSelected)}
                     checked={this.state.selectedStatus.includes("aprobada")}>
                       Aprobada
                     </CheckItem>
