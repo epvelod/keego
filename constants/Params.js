@@ -1,5 +1,5 @@
 
-const servHost = __DEV__? 'https://e735dd31-11ae-4f6d-956c-31283f70cdb4.mock.pstmn.io/keego' : '';
+const servHost = 'http://62.151.180.103:8080/keego/ws/servicioKeego/' ;
 export default {
   servHost,
   login: (servHost+'/login'),

@@ -109,11 +109,13 @@ export default class LoginScreen extends React.Component {
 	  const rawResponse = await fetch(Params.login, {
 	    method: 'POST',
 	    headers: {
+      mode: "no-cors",
 	      'Accept': 'application/json',
 	      'Content-Type': 'application/json'
 	    },
 	    body: JSON.stringify({usr: usr, pass: pass})
 	  });
+    console.log(rawResponse);
 	  const content = await rawResponse.json();
 	  return content;
 	}
