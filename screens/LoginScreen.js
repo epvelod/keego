@@ -108,16 +108,17 @@ export default class LoginScreen extends React.Component {
   async _fetchUserAsync(usr,pass) {
 	  const rawResponse = await fetch(Params.login, {
 	    method: 'POST',
-	    headers: {
       mode: "no-cors",
+	    headers: {
 	      'Accept': 'application/json',
 	      'Content-Type': 'application/json'
 	    },
 	    body: JSON.stringify({usr: usr, pass: pass})
 	  });
-    console.log(rawResponse);
 	  const content = await rawResponse.json();
-	  return content;
+    console.log('content[0]');
+    console.log(content[0]);
+	  return content[0];
 	}
 
   _usr({text}) {
@@ -153,7 +154,8 @@ export default class LoginScreen extends React.Component {
       `${this.folderPath}/usuario.json`, 
       JSON.stringify(result), 
       { encoding: FileSystem.EncodingType.UTF8 });
-    
+    console.log('guardado...');
+    console.log(JSON.stringify(result));
     return true;
   }
   render() {

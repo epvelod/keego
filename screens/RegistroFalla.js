@@ -51,7 +51,7 @@ export default class RegistroFalla extends React.Component {
 
     const vihiculosA = respuestas.filter((e) => e.id_vehiculo === traza.id_vehiculo 
       && e.id_normatividad === traza.id_normatividad 
-      && e.id_normatividad_vehiculo_persona === traza.id_normatividad_vehiculo_persona 
+      && e.id_normatividad_vehiculo === traza.id_normatividad_vehiculo 
       )[0];
     const instruccionesA = vihiculosA.instrucciones.filter((e) => e.id_ensamble === traza.instruccion.ensamble.id_ensamble )[0];
 

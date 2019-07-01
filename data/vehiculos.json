@@ -1,7 +1,7 @@
 [
 	{
 		"normatividad_vehiculo_persona": {
-			"id_normatividad_vehiculo_persona":0,
+			"id_normatividad_vehiculo":0,
 			"ponderacion":0,
 			"vehiculo": {
 				"id_vehiculo": 0,
@@ -15,7 +15,7 @@
 	},
 	{
 		"normatividad_vehiculo_persona": {
-			"id_normatividad_vehiculo_persona":1,
+			"id_normatividad_vehiculo":1,
 			"ponderacion":3,
 			"vehiculo": {
 				"id_vehiculo": 1,
@@ -29,7 +29,7 @@
 	},
 	{
 		"normatividad_vehiculo_persona": {
-			"id_normatividad_vehiculo_persona":2,
+			"id_normatividad_vehiculo":2,
 			"ponderacion":6,
 			"vehiculo": {
 				"id_vehiculo": 2,

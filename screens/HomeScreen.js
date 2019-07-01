@@ -139,7 +139,7 @@ export default class HomeScreen extends React.Component {
     const vehiculos = await this._readJSONFiles('vihiculo');
     console.log('JSON vehiculos: ', vehiculos);
 
-    const vehiculosF = vehiculos.filter(({ normatividad_vehiculo_persona }, index) => {
+    const vehiculosF = vehiculos.filter((normatividad_vehiculo_persona, index) => {
       let apply = false;
       apply |= (this.state.selectedSerch.includes('cliente') ? normatividad_vehiculo_persona.vehiculo.codigo_vehiculo.includes(text) : false);
       apply |= (this.state.selectedSerch.includes('ubicacion') ? normatividad_vehiculo_persona.vehiculo.ubicacion.estado.includes(text) : false);
@@ -264,15 +264,26 @@ export default class HomeScreen extends React.Component {
 
     /*si hay conexion intenta descargarlo*/
     const usuario = await this._readJSONFiles('usuario');
+    console.log({body: JSON.stringify({id_usuario: usuario.id_usuario})});
     const rawResponse = await fetch(Params.vehiculo, {
       method: 'POST',
+      mode: "no-cors",
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({id_usuario: usuario.id_usuario})
     });
+    console.log(rawResponse);
     const content = await rawResponse.json();
+    console.log(content);
+    for (var i = 0; i < content.length; i++) {
+      if(content[i].vehiculo 
+        && content[i].vehiculo.length 
+        && content[i].vehiculo.length > 0) {
+        content[i].vehiculo = content[i].vehiculo[0];
+      }
+    }
     console.log(content);
     await FileSystem.writeAsStringAsync(
       `${this.folderPath}/vihiculo.json`, 
@@ -292,20 +303,19 @@ export default class HomeScreen extends React.Component {
 
   async _imagesFile() {
     let propsFile;
-    let id_normatividad_vehiculo_persona;
+    let id_normatividad_vehiculo;
     const vehiculos = await this._readJSONFiles('vihiculo');
 
     for (var i = 0; i < vehiculos.length; i++) {
-      id_normatividad_vehiculo_persona = vehiculos[i]
-        .normatividad_vehiculo_persona
-        .id_normatividad_vehiculo_persona;
+      id_normatividad_vehiculo = vehiculos[i]
+        .id_normatividad_vehiculo;
 
       propsFile =  await FileSystem
-        .getInfoAsync(`${this.folderPath}/images${id_normatividad_vehiculo_persona}.json`);
+        .getInfoAsync(`${this.folderPath}/images${id_normatividad_vehiculo}.json`);
 
       if (!propsFile.exists) {
         await FileSystem.writeAsStringAsync(
-          `${this.folderPath}/images${id_normatividad_vehiculo_persona}.json`, 
+          `${this.folderPath}/images${id_normatividad_vehiculo}.json`, 
           JSON.stringify([]), 
           { encoding: FileSystem.EncodingType.UTF8 });
       }
@@ -325,7 +335,7 @@ export default class HomeScreen extends React.Component {
     } 
 
     /*Ready*/
-    const items = this.state.vehiculos.map(({ normatividad_vehiculo_persona }, index) => 
+    const items = this.state.vehiculos.map((normatividad_vehiculo_persona, index) => 
                      <Item 
                       key={index} 
                       titulo={normatividad_vehiculo_persona.vehiculo.codigo_vehiculo}
@@ -333,7 +343,7 @@ export default class HomeScreen extends React.Component {
                       onEvaluar={() => this.props.navigation.navigate('Instrucciones', 
                         { 
                           traza: {
-                            id_normatividad_vehiculo_persona: normatividad_vehiculo_persona.id_normatividad_vehiculo_persona,
+                            id_normatividad_vehiculo: normatividad_vehiculo_persona.id_normatividad_vehiculo,
                             id_vehiculo: normatividad_vehiculo_persona.vehiculo.id_vehiculo,
                             id_normatividad: normatividad_vehiculo_persona.id_normatividad,
                             instruccion: {},

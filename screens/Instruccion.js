@@ -119,7 +119,7 @@ export default class Instruccion extends React.Component {
 
     const vihiculosAnswer = respuestas.filter((e) => e.id_vehiculo === traza.id_vehiculo 
       && e.id_normatividad === traza.id_normatividad
-      && e.id_normatividad_vehiculo_persona === traza.id_normatividad_vehiculo_persona )[0] 
+      && e.id_normatividad_vehiculo === traza.id_normatividad_vehiculo )[0] 
     || {instrucciones:[]};
 
     const instruccionesAnswer = vihiculosAnswer.instrucciones.filter((e) => e.id_ensamble === traza.instruccion.ensamble.id_ensamble )[0]|| {componentes:[]};
@@ -143,7 +143,7 @@ export default class Instruccion extends React.Component {
     for (var i = 0; i < respuestas.length; i++) {
       if(respuestas[i].id_vehiculo === traza.id_vehiculo 
         && respuestas[i].id_normatividad === traza.id_normatividad         
-        && respuestas[i].id_normatividad_vehiculo_persona === traza.id_normatividad_vehiculo_persona) {
+        && respuestas[i].id_normatividad_vehiculo === traza.id_normatividad_vehiculo) {
         for (var j = 0; j < respuestas[i].instrucciones.length; j++) {
           if(respuestas[i].instrucciones[j].id_ensamble === traza.instruccion.ensamble.id_ensamble ) {
 
@@ -188,7 +188,7 @@ export default class Instruccion extends React.Component {
     for (var i = 0; i < respuestas.length; i++) {
       if(respuestas[i].id_vehiculo === traza.id_vehiculo 
         && respuestas[i].id_normatividad === traza.id_normatividad 
-        && respuestas[i].id_normatividad_vehiculo_persona === traza.id_normatividad_vehiculo_persona ) {
+        && respuestas[i].id_normatividad_vehiculo === traza.id_normatividad_vehiculo ) {
         for (var j = 0; j < respuestas[i].instrucciones.length; j++) {
           if(respuestas[i].instrucciones[j].id_ensamble === traza.instruccion.ensamble.id_ensamble ) {
 
