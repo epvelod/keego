@@ -427,9 +427,9 @@ export default class HomeScreen extends React.Component {
                   </TouchableOpacity>
                 </View>
               </View>
-              <View>
+              <ScrollView>
                 {items}
-              </View>
+              </ScrollView>
             </View>
 
 
