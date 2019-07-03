@@ -232,11 +232,12 @@ export default class HomeScreen extends React.Component {
     const respuestas = await this._readJSONFiles('respuestas');
     const rawResponse = await fetch(Params.respuestas, {
       method: 'POST',
+      mode: "no-cors",
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(respuestas)
+      body: JSON.stringify(this._prosesaRespuestas(respuestas))
     });
     const content = await rawResponse.json();
     if(content.status && content.status == 'ok') {
@@ -252,6 +253,23 @@ export default class HomeScreen extends React.Component {
     this.setState({
       ...this.state,
       isSendingData: false
+    });
+  }
+  _prosesaRespuestas(respuestas){ 
+    const result = respuestas.map((elem) => {
+      let ins;
+      if(elem.instrucciones) {
+        ins = [].concat.apply([], elem.instrucciones.map(e=>e.componentes));
+      } else {
+        ins = [];
+      }
+      let res = {
+        "id_normatividad_vehiculo_persona": elem.id_normatividad_vehiculo_persona,
+        "id_vehiculo": elem.id_vehiculo,
+        "id_normatividad": elem.id_normatividad,
+        "instrucciones": ins
+      }; 
+      return res;
     });
   }
   async _loadDataVehiculos() {
