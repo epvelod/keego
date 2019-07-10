@@ -1,0 +1,84 @@
+[{
+	"id_posicion":1,
+	"descripcion": "En cabina"
+},
+{
+	"id_posicion":2,
+	"descripcion": "Izquierdo delantero (o central, si solo cuenta con un tanque)"
+},
+{
+	"id_posicion":3,
+	"descripcion": "Izquierdo trasero"
+},
+{
+	"id_posicion":4,
+	"descripcion": "Derecho delantero (o central, si solo cuenta con un tanque)"
+},
+{
+	"id_posicion":5,
+	"descripcion": "Derecho trasero"
+},
+{
+	"id_posicion":6,
+	"descripcion": "En compartimiento de motor, lado izquierdo"
+},
+{
+	"id_posicion":7,
+	"descripcion": "Lado izquierdo"
+},
+{
+	"id_posicion":8,
+	"descripcion": "Lado derecho"
+},
+{
+	"id_posicion":9,
+	"descripcion": "En compartimiento de motor, lado derecho"
+},
+{
+	"id_posicion":10,
+	"descripcion": "En chasis, lado izquierdo"
+},
+{
+	"id_posicion":11,
+	"descripcion": "En chasis, lado derecho"
+},
+{
+	"id_posicion":12,
+	"descripcion": "En chasis, entre la transmisión y el diferencial"
+},
+{
+	"id_posicion":13,
+	"descripcion": "En chasis, entre los diferenciales"
+},
+{
+	"id_posicion":14,
+	"descripcion": "En compartimiento de motor"
+},
+{
+	"id_posicion":15,
+	"descripcion": "Debajo del motor, adelante"
+},
+{
+	"id_posicion":16,
+	"descripcion": "Debajo del motor, atrás"
+},
+{
+	"id_posicion":17,
+	"descripcion": "Detrás del motor"
+},
+{
+	"id_posicion":18,
+	"descripcion": "Ejes traseros-delantero, lado izquierdo"
+},
+{
+	"id_posicion":19,
+	"descripcion": "Ejes traseros-trasero, lado izquierdo"
+},
+{
+	"id_posicion":20,
+	"descripcion": "Ejes traseros-delantero, lado derecho"
+},
+{
+	"id_posicion":21,
+	"descripcion": "Ejes traseros-trasero, lado derecho"
+}]
