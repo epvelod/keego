@@ -230,26 +230,36 @@ export default class HomeScreen extends React.Component {
 
     /*si hay conexion intenta descargarlo*/
     const respuestas = await this._readJSONFiles('respuestas');
-    const rawResponse = await fetch(Params.respuestas, {
-      method: 'POST',
-      mode: "no-cors",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this._prosesaRespuestas(respuestas))
-    });
-    const content = await rawResponse.json();
-    if(content.status && content.status == 'ok') {
-      Alert.alert(
-        'La información se actualizo correctamente',
-        '',
-        [
-          {text: 'ACEPTAR'},
-        ],
-        {cancelable: false},
-      );
+    const respuestaProceso = this._prosesaRespuestas(respuestas);
+    let rawResponse;
+    let content;
+    let count = 0;
+    console.log('respuesta archivo', respuestaProceso);
+    console.log('respuesta_contenido', JSON.stringify(respuestaProceso[0]));
+    for (var i = 0; i < respuestaProceso.length; i++) {
+      rawResponse = await fetch(Params.respuestas, {
+        method: 'POST',
+        mode: "no-cors",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(respuestaProceso[i])
+      });
+      content = await rawResponse.json();
+      console.log('respuesta servicio', content);
+      count += (content.status && content.status == 'ok') ? 1:0;
     }
+
+    Alert.alert(
+      ('La información se actualizo correctamente '+count+' de '+respuestaProceso.length),
+      '',
+      [
+        {text: 'ACEPTAR'},
+      ],
+      {cancelable: false},
+    );
+    
     this.setState({
       ...this.state,
       isSendingData: false
@@ -264,13 +274,16 @@ export default class HomeScreen extends React.Component {
         ins = [];
       }
       let res = {
-        "id_normatividad_vehiculo_persona": elem.id_normatividad_vehiculo_persona,
+        "id_normatividad_vehiculo": elem.id_normatividad_vehiculo,
         "id_vehiculo": elem.id_vehiculo,
         "id_normatividad": elem.id_normatividad,
         "instrucciones": ins
       }; 
+console.log('res',res);
       return res;
     });
+console.log('result',result);
+    return result;
   }
   async _loadDataVehiculos() {
     /*si no hay conexion cargo el archivo*/
@@ -282,7 +295,6 @@ export default class HomeScreen extends React.Component {
 
     /*si hay conexion intenta descargarlo*/
     const usuario = await this._readJSONFiles('usuario');
-    console.log({body: JSON.stringify({id_usuario: usuario.id_usuario})});
     const rawResponse = await fetch(Params.vehiculo, {
       method: 'POST',
       mode: "no-cors",
@@ -292,9 +304,7 @@ export default class HomeScreen extends React.Component {
       },
       body: JSON.stringify({id_usuario: usuario.id_usuario})
     });
-    console.log(rawResponse);
     const content = await rawResponse.json();
-    console.log(content);
     for (var i = 0; i < content.length; i++) {
       if(content[i].vehiculo 
         && content[i].vehiculo.length 
@@ -302,7 +312,6 @@ export default class HomeScreen extends React.Component {
         content[i].vehiculo = content[i].vehiculo[0];
       }
     }
-    console.log(content);
     await FileSystem.writeAsStringAsync(
       `${this.folderPath}/vihiculo.json`, 
       JSON.stringify(content), 

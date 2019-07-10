@@ -76,6 +76,7 @@ export default class RegistroFalla extends React.Component {
   async _loadDBInformation() {
     const { navigation } = this.props;
     const id_falla = navigation.getParam('id_falla', -1);
+    const id_posicion = navigation.getParam('id_posicion', -1);
     const traza = navigation.getParam('traza', {});
 
     const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/respuestas.json`, { encoding: FileSystem.EncodingType.UTF8 });
@@ -90,7 +91,10 @@ export default class RegistroFalla extends React.Component {
     const compA = instruccionesA.componentes.filter(e=>e.id_componente===traza.instruccion.ensamble.componente.id_componente);
     const fallasA = (compA.length>0? (compA[0].fallas||[]) : []);
 
-    let fallaA = fallasA.filter(e=>e.id_falla===traza.instruccion.ensamble.componente.falla.id_falla);
+    let fallaA = fallasA.filter(e=>
+      e.id_falla===traza.instruccion.ensamble.componente.falla.id_falla
+      && e.id_posicion===traza.instruccion.ensamble.componente.falla.id_posicion
+      );
 
     console.log('V: fallaA ');
     console.log(fallaA);
@@ -176,6 +180,7 @@ export default class RegistroFalla extends React.Component {
       console.log('photo');
       console.log(photo);
     }
+    await this._writeImage(this.state.traza.id_normatividad_vehiculo, photo);
     this.setState({...this.state, modalVisible: false, photoFile: photo.uri})
   };
 
@@ -204,6 +209,56 @@ export default class RegistroFalla extends React.Component {
 
     this.props.navigation.goBack();
 
+  }
+  async _writeImage(id_normatividad_vehiculo, photo) {
+    console.log('photo __proto__',photo.__proto__);
+    console.log('photo',photo);
+    const id_ensamble = this.state.traza.instruccion.ensamble.id_ensamble;
+    const id_falla = this.state.traza.instruccion.ensamble.componente.falla.id_falla;
+    const id_posicion = this.state.traza.instruccion.ensamble.componente.falla.id_posicion;
+    const {uri,base64} = photo;
+    const fileName = `/images${id_normatividad_vehiculo}`;
+    const imagesContent = await this._loadImagesFile();
+    const imageContent = imagesContent.find(e=>
+      e.id_normatividad_vehiculo == id_normatividad_vehiculo
+      && e.id_ensamble == id_ensamble 
+      && e.id_falla == id_falla
+      && e.id_posicion == id_posicion
+      );
+
+    if(imageContent) {
+      imageContent.uri = uri;
+      imageContent.data = base64;
+    } else {
+      imagesContent.push({
+        id_normatividad_vehiculo:id_normatividad_vehiculo,
+        uri:uri,
+        data:base64,
+        id_ensamble:id_ensamble,
+        id_falla:id_falla,
+        id_posicion:id_posicion,
+      });
+    }
+    await this._saveJSON(imagesContent,fileName);
+  }
+  async _loadImagesFile() {
+    const traza = this.state.traza;
+    const id_normatividad_vehiculo = traza.id_normatividad_vehiculo;
+    const fileName = `/images${id_normatividad_vehiculo}`;
+    return await this._readJSONFiles(fileName);
+  }
+  async _saveJSON(content,name) {
+    await FileSystem.writeAsStringAsync(`${this.folderPath}/${name}.json`, 
+      JSON.stringify(content), 
+      { encoding: FileSystem.EncodingType.UTF8 });
+  }
+  async _readJSONFiles(file) {
+    console.log(`read ${this.folderPath}/${file}.json`);
+    const fileContent =  await FileSystem.readAsStringAsync(
+      `${this.folderPath}/${file}.json`, 
+      { encoding: FileSystem.EncodingType.UTF8 });
+    const content = JSON.parse(fileContent);
+    return content;
   }
 
   render() {

@@ -39,6 +39,7 @@ export default class Instruccion extends React.Component {
     traza: {},
     respuestas: {},
     data: {componentes:[]},
+    imagenesRespuestas: [],
     /*camara*/
     hasCameraPermission: null,
     photoFile:undefined
@@ -57,11 +58,13 @@ export default class Instruccion extends React.Component {
     const data = navigation.getParam('data', {instruccion:'...',componentes:[]});
     const content =  await FileSystem.readAsStringAsync(`${this.folderPath}/respuestas.json`, { encoding: FileSystem.EncodingType.UTF8 });
     const respuestas = JSON.parse(content)||[];
-    console.log('content');
-    console.log(content);
     const selecteds = await this.pintaComponente(respuestas,traza,data);
 
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
+
+    const photoFile = await this._loadImagesData(
+      traza.id_normatividad_vehiculo,
+      traza.instruccion.ensamble.id_ensamble);
 
     this.setState({ 
       ...this.state, 
@@ -70,7 +73,8 @@ export default class Instruccion extends React.Component {
       respuestas: respuestas,
       data: data,
       selecteds:selecteds,
-      hasCameraPermission: status === 'granted'
+      hasCameraPermission: status === 'granted',
+      photoFile:photoFile
     });
   };
   _handleLoadingError = error => {
@@ -99,17 +103,24 @@ export default class Instruccion extends React.Component {
       selecteds: selecteds,
     });
   }
-  async _onItemClick(id_componente,fallas){
+  async _onItemClick(id_componente,fallas,posiciones){
     this.state.traza.instruccion.ensamble.componente = {};
     this.state.traza.instruccion.ensamble.componente.id_componente = id_componente;
     this.state.traza.instruccion.ensamble.componente.falla = {};
+    this.state.traza.instruccion.ensamble.componente.posicion = {};
 
     this.state.respuestas
+
+    console.log('Go to Fallas');
+    console.log('traza', this.state.traza);
+    console.log('fallas', fallas);
+    console.log('posiciones', posiciones);
 
     this.props.navigation.navigate('Fallas', 
     {
       traza:this.state.traza,
       fallas: fallas,
+      posiciones: posiciones,
     });
   }
   /**--------------------------- Util -----------------------*/
@@ -175,6 +186,48 @@ export default class Instruccion extends React.Component {
       }
     }
   }
+  async _loadImagesData(id_normatividad_vehiculo, id_ensamble) {
+    const imagesContent = await this._loadImagesFile(id_normatividad_vehiculo);
+    const imageContent = imagesContent.find(e=>
+      e.id_normatividad_vehiculo == id_normatividad_vehiculo
+      && e.id_ensamble == id_ensamble
+      && !e.id_falla
+      && !e.id_posicion);
+
+    if(imageContent)
+      return {uri:imageContent.uri};
+    else
+      return undefined;
+  }
+  async _writeImage(id_normatividad_vehiculo, id_ensamble, photo) {
+    console.log('photo',photo);
+    const {uri,base64} = photo;
+    const fileName = `/images${id_normatividad_vehiculo}`;
+    const imagesContent = await this._loadImagesFile(id_normatividad_vehiculo);
+    console.log('imagesContent',imagesContent);
+    const imageContent = imagesContent.find(e=>
+      e.id_normatividad_vehiculo == id_normatividad_vehiculo
+      && e.id_ensamble == id_ensamble
+      && !e.id_falla
+      && !e.id_posicion);
+
+    if(imageContent) {
+      imageContent.uri = uri;
+      imageContent.data = base64;
+    } else {
+      imagesContent.push({
+        id_normatividad_vehiculo:id_normatividad_vehiculo,
+        id_ensamble:id_ensamble,
+        uri:uri,
+        data:base64,
+      });
+    }
+    await this._saveJSON(imagesContent,fileName);
+  }
+  async _loadImagesFile(id_normatividad_vehiculo) {
+    const fileName = `/images${id_normatividad_vehiculo}`;
+    return await this._readJSONFiles(fileName);
+  }
   async _terminar() {
     await this._finInstruccion();
     this.props.navigation.goBack();
@@ -212,22 +265,45 @@ export default class Instruccion extends React.Component {
       }
     }
   }
-  _onClose() {
-
+  _onClose(index) {
+    if(index===1) {
+      this.setState({...this.state, modalVisible: false})
+    } else {
+      this.setState({...this.state, modalVisibleImg: false})
+    }
   }
   async _snap() {
     let photo = undefined;
+    console.log('traza',this.state.traza);
+    console.log('traza',this.state.traza);
     if (this.camera) {
       photo = await this.camera.takePictureAsync({quality:0,base64:true,skipProcessing:true});
-      console.log(photo);
     }
+    await this._writeImage(
+      this.state.traza.id_normatividad_vehiculo, 
+      this.state.traza.instruccion.ensamble.id_ensamble,
+      photo);
     this.setState({...this.state, modalVisible: false, photoFile: photo})
   };
-
+  /*tools*/
+  async _saveJSON(content,name) {
+    await FileSystem.writeAsStringAsync(`${this.folderPath}/${name}.json`, 
+      JSON.stringify(content), 
+      { encoding: FileSystem.EncodingType.UTF8 });
+  }
+  async _readJSONFiles(file) {
+    console.log(`read ${this.folderPath}/${file}.json`);
+    const fileContent =  await FileSystem.readAsStringAsync(
+      `${this.folderPath}/${file}.json`, 
+      { encoding: FileSystem.EncodingType.UTF8 });
+    const content = JSON.parse(fileContent);
+    return content;
+  }
   render() {
     let camaraView;
     let foto;
     let iconFoto;
+    let botonTerminar;
     /*Cargando...*/
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
@@ -277,16 +353,28 @@ export default class Instruccion extends React.Component {
       );
     }
     /*build itmes*/
-    const items = this.state.data.componentes.map(({id_componente, descripcion, fallas}, index) => {
+    const items = this.state.data.componentes
+      .map(({id_componente, descripcion, fallas, posicion}, index) => {
         return (<ItemComponente 
           key={index} 
-          onPress={() => this._onItemClick(id_componente,fallas)}
+          onPress={() => this._onItemClick(id_componente,fallas,posicion)}
           value={this.state.selecteds[index]}
           onChange={()=>this._onChange(index)}>
           {descripcion}
         </ItemComponente>);
         }
       );
+    /*Boton terminar*/
+
+    if(this.state.selecteds || this.state.selecteds.length<1) {
+      botonTerminar = (<Button
+      title="Terminar sin daños"
+      color={Colors.negro}
+      style={{
+      }}
+      onPress={() => this._terminar() }
+      />);
+    }
     /*view*/
     return (
     <View style={{
@@ -323,8 +411,18 @@ export default class Instruccion extends React.Component {
           </BotonCamara>
           {iconFoto}
           <BotonListo 
-          onPress={() => this._terminar() }>
+          onPress={() => 
+            (this.state.selecteds 
+              && this.state.selecteds.length>0)?
+            this._terminar():
+            this.props.navigation.goBack() }>
           </BotonListo>
+        </View>
+        <View style={{
+        height: 50, 
+        marginTop: 5, 
+        }} >
+        {botonTerminar} 
         </View>
       </View>
 
@@ -333,7 +431,7 @@ export default class Instruccion extends React.Component {
         animationType="fade"
         transparent={false}
         visible={this.state.modalVisible}
-        onRequestClose={()=>this._onClose()}>
+        onRequestClose={()=>this._onClose(1)}>
         {camaraView}
       </Modal>
 
@@ -341,7 +439,7 @@ export default class Instruccion extends React.Component {
         animationType="fade"
         transparent={false}
         visible={this.state.modalVisibleImg}
-        onRequestClose={()=>this._onClose()}>
+        onRequestClose={()=>this._onClose(2)}>
         {foto}
         <View style={{
           marginLeft: 10, 

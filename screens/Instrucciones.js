@@ -124,6 +124,9 @@ export default class Instrucciones extends React.Component {
     this.state.traza.instruccion.ensamble.id_ensamble = ensamble.id_ensamble;
 
 
+    console.log('Go to Instruccion');
+    console.log('traza', this.state.traza);
+    console.log('ensamble', ensamble);
     this.props.navigation.navigate('Instruccion', 
     {
       traza:this.state.traza,

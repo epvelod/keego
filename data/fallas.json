@@ -8,11 +8,11 @@
 },
 {
 	"id_falla": 3,
-	"descripcion": "Aplastado, marcado"
+	"descripcion": "Aplastado o marcado"
 },
 {
 	"id_falla": 4,
-	"descripcion": "Abollado o roto por contacto externo"
+	"descripcion": "Abollado o roto por impacto externo"
 },
 {
 	"id_falla": 5,
@@ -23,8 +23,12 @@
 	"descripcion": "Corroido, oxidado, decolorado"
 },
 {
+	"id_falla": 7,
+	"descripcion": "Bajo nivel de fluido"
+},
+{
 	"id_falla": 9,
-	"descripcion": "Desgste evidente o fuera de tolerancia"
+	"descripcion": "Desgaste evidente o fuera de tolerancia"
 },
 {
 	"id_falla": 10,
@@ -49,5 +53,4 @@
 {
 	"id_falla": 15,
 	"descripcion": "No funciona"
-}
-]
+}]

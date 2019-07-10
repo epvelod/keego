@@ -102,3 +102,20 @@ export class SubTituloPequeno extends React.Component {
       ]} />;
   }
 }
+
+export class ListHeader extends React.Component {
+  render() {
+    return <Text {...this.props} style={[this.props.style, 
+      
+  {
+                  fontFamily: 'Microsoft YaHei',
+                  fontSize: 14,
+                  marginTop: 5,
+                  color: '#999',
+                  marginHorizontal: 10,
+                  fontWeight: 'bold',
+    }
+
+      ]} />;
+  }
+}
